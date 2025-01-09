@@ -3,11 +3,12 @@ package andualem.yonas.runners.run;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173" )
 @RestController
 @RequestMapping("/api/runs")
 public class RunController {
@@ -56,11 +57,11 @@ public class RunController {
 
 
     //Delete method to delete a run by id
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void deleteRun(@PathVariable Integer id) {
         if (!runRepository.existsById(id)) {
-            throw new RunNotFoundException();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found");
         }
         runRepository.deleteById(id);
     }

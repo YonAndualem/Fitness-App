@@ -32,22 +32,22 @@ public class Application {
 //		};
 //	}
 
-	@Bean
-	CommandLineRunner runner(UserHttpClient client)
-	{
-		return args -> {
-			List<User> users = client.findAll();
-			System.out.println("Users: " + users);
+//	@Bean
+//	CommandLineRunner runner(UserHttpClient client)
+//	{
+//		return args -> {
+//			List<User> users = client.findAll();
+//			System.out.println("Users: " + users);
+//
+//			User user = client.findById(1);
+//			System.out.println("User: " + user);
+//		};
+//	}
 
-			User user = client.findById(1);
-			System.out.println("User: " + user);
-		};
-	}
-
-	@Bean
-	UserHttpClient userHttpClient() {
-		RestClient restClient = RestClient.create("https://jsonplaceholder.typicode.com");
-		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
-		return factory.createClient(UserHttpClient.class);
-	}
+//	@Bean
+//	UserHttpClient userHttpClient() {
+//		RestClient restClient = RestClient.create("https://jsonplaceholder.typicode.com");
+//		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
+//		return factory.createClient(UserHttpClient.class);
+//	}
 }

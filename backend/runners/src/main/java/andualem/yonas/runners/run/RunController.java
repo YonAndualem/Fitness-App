@@ -8,7 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173" )
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/runs")
 public class RunController {
@@ -19,13 +19,13 @@ public class RunController {
         this.runRepository = runRepository;
     }
 
-    //Get method to return all runs
+    // Get method to return all runs
     @GetMapping()
     List<Run> findAll() {
         return runRepository.findAll();
     }
 
-    //Get method to return a run by id
+    // Get method to return a run by id
     @GetMapping("/{id}")
     Run findById(@PathVariable Integer id) {
         Optional<Run> run = runRepository.findById(id);
@@ -35,14 +35,14 @@ public class RunController {
         return run.get();
     }
 
-    //Post method to create a new run
+    // Post method to create a new run
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    void create(@Valid @RequestBody Run run) { //Sends 400 Bad request if the request body is not valid
+    void create(@Valid @RequestBody Run run) { // Sends 400 Bad request if the request body is not valid
         runRepository.save(run);
     }
 
-    //Put method to update an existing run
+    // Put method to update an existing run
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/update/{id}")
     public void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
@@ -62,7 +62,7 @@ public class RunController {
         runRepository.save(run);
     }
 
-    //Delete method to delete a run by id
+    // Delete method to delete a run by id
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRun(@PathVariable Integer id) {
@@ -72,8 +72,7 @@ public class RunController {
         runRepository.deleteById(id);
     }
 
-
-    //Get method to return all runs by location
+    // Get method to return all runs by location
     @GetMapping("/location/{location}")
     List<Run> findAllByLocation(@PathVariable String location) {
         return runRepository.findAllByLocation(location);

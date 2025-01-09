@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
 
+
+/**
+ * Implements CommandLineRunner to load run data from a JSON file into the database.
+ * It uses Jackson for JSON parsing and logs the process using SLF4J.
+ * If the database is empty, it reads the runs from the JSON file and saves them to the database.
+ */
 @Component
 public class RunJsonDataLoader implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(RunJsonDataLoader.class);

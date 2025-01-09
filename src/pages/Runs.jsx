@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Runs() {
@@ -9,6 +10,7 @@ export default function Runs() {
   const [maxDistance, setMaxDistance] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch runs from the backend
@@ -49,15 +51,26 @@ export default function Runs() {
   };
 
   const resetFilters = () => {
-    // Clear all filter inputs
     setLocation('');
     setMinDistance('');
     setMaxDistance('');
     setStartDate('');
     setEndDate('');
-
-    // Reset to the full list of runs
     setFilteredRuns(runs);
+  };
+
+  const deleteRun = (id) => {
+    if (window.confirm('Are you sure you want to delete this run?')) {
+      axios.delete(`http://localhost:8080/api/runs/${id}`)
+        .then(() => {
+          // Remove the deleted run from the list
+          setRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
+          setFilteredRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
+        })
+        .catch(() => {
+          console.error('Failed to delete run.');
+        });
+    }
   };
 
   return (
@@ -142,6 +155,20 @@ export default function Runs() {
             <p><strong>Distance:</strong> {run.miles} miles</p>
             <p><strong>Started On:</strong> {new Date(run.startedOn).toLocaleString()}</p>
             <p><strong>Completed On:</strong> {new Date(run.completedOn).toLocaleString()}</p>
+            <div className="mt-4 flex space-x-4">
+              <button
+                onClick={() => navigate(`/runs/edit/${run.id}`)}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => deleteRun(run.id)}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>

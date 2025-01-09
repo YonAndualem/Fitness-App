@@ -59,17 +59,19 @@ export default function Runs() {
     setFilteredRuns(runs);
   };
 
-  const deleteRun = (id) => {
+  const deleteRun = async (id) => {
     if (window.confirm('Are you sure you want to delete this run?')) {
-      axios.delete(`http://localhost:8080/api/runs/${id}`)
-        .then(() => {
-          // Remove the deleted run from the list
-          setRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
-          setFilteredRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
-        })
-        .catch(() => {
-          console.error('Failed to delete run.');
-        });
+      try {
+        await axios.delete(`http://localhost:8080/api/runs/${id}`);
+        console.log("Run deleted successfully:", id);
+
+        // Update the state
+        setRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
+        setFilteredRuns((prevRuns) => prevRuns.filter((run) => run.id !== id));
+      } catch (error) {
+        console.error("Failed to delete run:", error.response || error.message);
+        alert("Failed to delete run. Please try again.");
+      }
     }
   };
 

@@ -44,5 +44,5 @@ To install and run the Fitness App locally, follow these steps:
         ```
 
     
-The app should now be running on `http://localhost:3000`.
+The app should now be running on `http://localhost:5172`.
 Thank you for using the Fitness App!

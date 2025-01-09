@@ -46,15 +46,21 @@ public class RunController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/update/{id}")
     public void update(@Valid @RequestBody Run run, @PathVariable Integer id) {
+        System.out.println("Update Request Received for ID: " + id);
+        System.out.println("Run Data: " + run);
+
         if (!runRepository.existsById(id)) {
             throw new RunNotFoundException();
         }
-        // Save with versioning handled automatically by Spring Data JDBC
+
+        // Ensure the ID in the payload matches the ID in the URL
+        if (!id.equals(run.id())) {
+            throw new IllegalArgumentException("ID in path does not match ID in the payload");
+        }
+
+        // Save the updated record
         runRepository.save(run);
     }
-
-
-
 
     //Delete method to delete a run by id
     @DeleteMapping("/{id}")
